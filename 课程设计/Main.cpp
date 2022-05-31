@@ -6,6 +6,7 @@
 #include"Function.cpp"
 using namespace std;
 int main() {
+	int Count = 1;
 	Title2();
 	Computer** Head = nullptr;
 	cout << "是否继承上一次的文件:";
@@ -23,6 +24,11 @@ int main() {
 		}
 	}
 	while (1) {
+		Count++;
+		if (Count == 20) {
+			cout << "强制退出!!!!!" << endl;
+			break;
+		}
 		Head = Menu(Head);
 		if (Head == nullptr) {
 			break;

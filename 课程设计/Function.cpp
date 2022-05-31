@@ -29,11 +29,7 @@ void Title2() {
 
 void Add(Computer**& Head) {
 	cout << "                                                 添加功能" << endl;
-	cout << "是否返回上一步:";
-	string Back;
-	cin >> Back;
-	if (Back == "y" || Back == "Y") {
-		Menu(Head);
+	if (Back(Head)) {
 		return;
 	}
 	if (Head == nullptr) {
@@ -178,7 +174,6 @@ void Change(Computer**& Head) {
 		cout << "请输入想要修改几处:";
 		int Total;
 		ToInt(Total);
-
 		Check = CheckInt(Total, "请输入想要修改几处:", 0, 6);
 		if (Check == false) {
 			return;
@@ -307,63 +302,67 @@ Computer** Menu(Computer**& Head) {
 	cout << "5.对电脑部件进行排序(前往下一级菜单)" << endl;
 	cout << "88.结束本系统" << endl;
 	cout << endl;
-	cout << "请输入对应功能的数字:";
-	while (cin >> n) {
-		if (n == 1) {
-			Divide2();
-			Add(Head);
-			return Head;
-		}
-		else if (n == 2) {
-			Divide2();
-			Change(Head);
-			return Head;
-		}
-		else if (n == 3) {
-			Divide2();
-			Delete(Head);
-			return Head;
-		}
-		else if (n == 4) {
-			Divide2();
-			Menu2(Head);
-			return Head;
-		}
-		else if (n == 5) {
-			Divide2();
-			Menu3();
-			return Head;
-		}
-		else if (n == 88) {
-			if (Head == nullptr) {
-				cout << endl;
-				cout << "                                         感谢您的使用，下次再见" << endl;
-				Divide();
-				return nullptr;
-			}
-			else {
-				if (Head[0]->GetFlag() == true) {
-					cout << "检测到文件未保存,是否要保存:";
-					string SaveOr;
-					cin >> SaveOr;
-					if (SaveOr == "y" || SaveOr == "Y") {
-						Save(Head, 0);
-					}
-				}
-				for (int i = 0; i < Head[0]->GetAmount(); i++) {
-					delete Head[i];
-				}
-				delete Head;
-				Head = nullptr;
-				cout << endl;
-				cout << "                                       感谢您的使用，下次再见" << endl;
-				Divide();
-				return nullptr;
-			}
+	cout << "请输入对应功能前的数字:";
+	ToInt(n);
+	bool Check;
+	Check = CheckInt(n, "请输入对应功能前的数字:",0,88);
+	if (Check == false) {
+		return Head;
+	}
+	if (n == 1) {
+		Divide2();
+		Add(Head);
+		return Head;
+	}
+	else if (n == 2) {
+		Divide2();
+		Change(Head);
+		return Head;
+	}
+	else if (n == 3) {
+		Divide2();
+		Delete(Head);
+		return Head;
+	}
+	else if (n == 4) {
+		Divide2();
+		Menu2(Head);
+		return Head;
+	}
+	else if (n == 5) {
+		Divide2();
+		Menu3();
+		return Head;
+	}
+	else if (n == 88) {
+		if (Head == nullptr) {
+			cout << endl;
+			cout << "                                         感谢您的使用，下次再见" << endl;
+			Divide();
+			return nullptr;
 		}
 		else {
-			cout << "请输入正确数字:";
+			if (Head[0]->GetFlag() == true) {
+				cout << "检测到文件未保存,是否要保存:";
+				string SaveOr;
+				cin >> SaveOr;
+				if (SaveOr == "y" || SaveOr == "Y") {
+					Save(Head, 0);
+				}
+			}
+			for (int i = 0; i < Head[0]->GetAmount(); i++) {
+				delete Head[i];
+			}
+			delete Head;
+			Head = nullptr;
+			cout << endl;
+			cout << "                                       感谢您的使用，下次再见" << endl;
+			Divide();
+			return nullptr;
 		}
+	}
+	else {
+		cout << "没有这个选项,将返回主菜单" << endl;
 	}
 	return Head;
 }
@@ -384,6 +383,8 @@ void Menu2(Computer**& Head) {
 			cout << "当前数据已被全部清空,请先输入数据!!!!!" << endl;
 			return;
 		}
+		cout << endl;
+		cout << "以下为可供查询的信息" << endl;
 		cout << "1.按类型查询" << endl;
 		cout << "2.按价格查询" << endl;
 		cout << "3.按部件名查询" << endl;
@@ -394,34 +395,38 @@ void Menu2(Computer**& Head) {
 		cout << endl;
 		cout << "请输入想要实现功能前的数字:";
 		int n;
-		while (cin >> n) {
-			if (n == 1) {
+		ToInt(n);
+		bool Check;
+		Check = CheckInt(n, "请输入对应信息前的数字:");
+		if (Check == false) {
+			return;
+		}
+		if (n == 1) {
 
-			}
-			else if (n == 2) {
+		}
+		else if (n == 2) {
 
-			}
-			else if (n == 3) {
+		}
+		else if (n == 3) {
 
-			}
-			else if (n == 4) {
+		}
+		else if (n == 4) {
 
-			}
-			else if (n == 5) {
+		}
+		else if (n == 5) {
 
-			}
-			else if (n == 6) {
+		}
+		else if (n == 6) {
 
-			}
-			else if (n == 6) {
+		}
+		else if (n == 6) {
 
-			}
-			else if (n == 7) {
-				return;
-			}
-			else {
-				cout << "请输入正确数值:";
-			}
+		}
+		else if (n == 7) {
+			return;
+		}
+		else {
+			cout << "请输入正确数值:";
 		}
 		return;
 	}
