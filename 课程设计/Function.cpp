@@ -142,11 +142,7 @@ void Add(Computer**& Head) {
 }
 void Change(Computer**& Head) {
 	cout << "                                                 修改功能" << endl;
-	cout << "是否返回上一步:";
-	string Back;
-	cin >> Back;
-	if (Back == "y" || Back == "Y") {
-		Menu(Head);
+	if (Back(Head)) {
 		return;
 	}
 	if (Head == nullptr) {
@@ -155,9 +151,13 @@ void Change(Computer**& Head) {
 		return;
 	}
 	else {
+		if (Head[0]->GetAmount() == 0) {
+			cout << "当前数据已被全部清空,请先输入数据!!!!!" << endl;
+			return;
+		}
 		Show(Head, 0);//直接输出
 		cout << endl;
-		cout << "当前编号最大值为No." << Head[0]->GetAmount() << endl;
+		cout << "当前编号最大值为No." << Head[0]->GetAmount() <<"\t\t编号从1开始，最大值为0表示当前没有数据可以修改" << endl;
 		cout << "请输入想要修改部件的编号,即No.后的数值:";
 		int Num;
 		ToInt(Num);
@@ -224,18 +224,16 @@ void Change(Computer**& Head) {
 				i--;
 			}
 		}
+		cout << endl;
 		Save(Head);
+		cout << endl;
 		Show(Head);
 		return;
 	}
 }
 void Delete(Computer**& Head) {
 	cout << "                                                 删除功能" << endl;
-	cout << "是否返回上一步:";
-	string Back;
-	cin >> Back;
-	if (Back == "y" || Back == "Y") {
-		Menu(Head);
+	if (Back(Head)) {
 		return;
 	}
 	if (Head == nullptr) {
@@ -244,6 +242,12 @@ void Delete(Computer**& Head) {
 		return;
 	}
 	else {
+		if (Head[0]->GetAmount() == 0) {
+			cout << "当前数据已被全部清空,请先输入数据!!!!!" << endl;
+			return;
+		}
+		cout << endl;
+		cout << "\t现有" << Head[0]->GetAmount() << "组数据" << endl;
 		Show(Head, 0);
 		cout << endl;
 		cout << "请输入想要删除几组数据:";
@@ -251,6 +255,9 @@ void Delete(Computer**& Head) {
 		ToInt(No);
 		bool Check;
 		Check = CheckInt(No, "请输入想要删除几组数据:", 0, Head[0]->GetAmount());
+		if (Check == false) {
+			return;
+		}
 		cout << endl;
 		int NewAmount = Head[0]->GetAmount() - No;
 		for (int i = 0; i < No; i++) {
@@ -279,6 +286,9 @@ void Delete(Computer**& Head) {
 		Head[0]->SetAmount(NewAmount);//出现长度为0的数组竟然不会报错
 		cout << endl;
 		Show(Head);
+		if (Head[0]->GetAmount() == 0) {
+			cout << "当前数据已被全部清空!!!!!" << endl;
+		}
 		cout << endl;
 		Save(Head);
 		return;
@@ -333,12 +343,18 @@ Computer** Menu(Computer**& Head) {
 			}
 			else {
 				if (Head[0]->GetFlag() == true) {
-					Save(Head);
+					cout << "检测到文件未保存,是否要保存:";
+					string SaveOr;
+					cin >> SaveOr;
+					if (SaveOr == "y" || SaveOr == "Y") {
+						Save(Head, 0);
+					}
 				}
 				for (int i = 0; i < Head[0]->GetAmount(); i++) {
 					delete Head[i];
 				}
 				delete Head;
+				Head = nullptr;
 				cout << endl;
 				cout << "                                       感谢您的使用，下次再见" << endl;
 				Divide();
@@ -354,13 +370,20 @@ Computer** Menu(Computer**& Head) {
 
 
 void Menu2(Computer**& Head) {
+	cout << "                                               查询功能" << endl;
+	if (Back(Head)) {
+		return;
+	}
 	if (Head == nullptr) {
 		cout << "                                   还没有数据可以查询,请先填写数据!!!!!" << endl;
 		Head = Menu(Head);
 		return;
 	}
 	else {
-		cout << "                                               查询功能" << endl;
+		if (Head[0]->GetAmount() == 0) {
+			cout << "当前数据已被全部清空,请先输入数据!!!!!" << endl;
+			return;
+		}
 		cout << "1.按类型查询" << endl;
 		cout << "2.按价格查询" << endl;
 		cout << "3.按部件名查询" << endl;
@@ -640,12 +663,12 @@ void ToTime(string& Ti) {
 	string Year;
 	string Month;
 	string Day;
-	cout << "      请输入年份:";
+	cout << "  请输入年份:";
 	while (1) {
 		ToInt(Int);
 		if (Int > 2022) {
-			cout << "      年份未到!!!!!" << endl;
-			cout << "      请重新输入:";
+			cout << "  年份未到!!!!!" << endl;
+			cout << "  请重新输入:";
 		}
 		else {
 			break;
@@ -655,12 +678,12 @@ void ToTime(string& Ti) {
 		int m = i % 10;
 		Year = char(m + 48) + Year;
 	}
-	cout << "      请输入月份:";
+	cout << "  请输入月份:";
 	while (1) {
 		ToInt(Int);
 		if (Int > 12|| Int == 0) {
-			cout << "      没有这个月!!!!!" << endl;
-			cout << "      请重新输入:";
+			cout << "  没有这个月!!!!!" << endl;
+			cout << "  请重新输入:";
 		}
 		else {
 			break;
@@ -673,12 +696,12 @@ void ToTime(string& Ti) {
 	if (Int < 10) {
 		Month = char(48) + Month;
 	}
-	cout << "      请输入日:";
+	cout << "  请输入日:";
 	while (1) {
 		ToInt(Int);
 		if (Int > 31|| Int == 0) {
-			cout << "      没有这个日!!!!!" << endl;
-			cout << "      请重新输入:";
+			cout << "  没有这个日!!!!!" << endl;
+			cout << "  请重新输入:";
 		}
 		else {
 			break;
@@ -695,8 +718,8 @@ void ToTime(string& Ti) {
 	return;
 }
 
-bool CheckInt(int& This,string str,int min,int max) {
-	if (min == -1 && max == -1) {
+bool CheckInt(int& This,string str,int Min,int Max) {
+	if (Min == -1 && Max == -1) {
 		if (This == 0) {
 			cout << "请不要调戏系统，再给你一次机会" << endl;
 			cout << str;
@@ -709,15 +732,25 @@ bool CheckInt(int& This,string str,int min,int max) {
 		return true;
 	}
 	else {
-		if (This <= 0||This>max) {
-			cout << "请不要调戏系统，再给你一次机会" << endl;
+		if (This <= 0||This>Max) {
+			cout << "请不要调戏系统，再给你一次机会(取值范围" << Min << "-" << Max << ",其中0不可取)" << endl;
 			cout << str;
 			ToInt(This);
 		}
-		if (This == 0||This>max) {
+		if (This == 0||This>Max) {
 			cout << "Get Away!!!!!" << endl;
 			return false;
 		}
 		return true;
 	}
+}
+bool Back(Computer**& Head) {
+	cout << "是否返回上一步:";
+	string Back;
+	cin >> Back;
+	if (Back == "y" || Back == "Y") {
+		Menu(Head);
+		return true;
+	}
+	return false;
 }

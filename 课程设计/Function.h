@@ -16,3 +16,4 @@ void ToDouble(double&);
 void ToInt(int&);
 void ToTime(string&);
 bool CheckInt(int&,string,int min=-1,int max=-1);
+bool Back(Computer**&);
