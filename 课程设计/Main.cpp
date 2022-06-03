@@ -7,26 +7,15 @@
 using namespace std;
 int main() {
 	int Count = 1;
-	Title2();
 	Computer** Head = nullptr;
-	cout << "是否继承上一次的文件:";
-	string str;
-	cin >> str;
-	if (str == "y" || str == "Y") {
-		fstream input("Computer.txt", ios::in|ios::_Nocreate);
-		if (!input) {
-			cerr << "Open Error" << endl;
-		}
-		else {
-			In(input,Head);
-			input.close();
-			Show(Head);
-		}
-	}
+	Default(Head);
 	while (1) {
 		Count++;
-		if (Count == 20) {
-			cout << "强制退出!!!!!" << endl;
+		if (Count == 50) {
+			cout << "!!!!!!使用次数到达一定数值,强制退出!!!!!" << endl;
+			if (Head != nullptr) {
+				Save(Head);
+			}
 			break;
 		}
 		Head = Menu(Head);
@@ -34,12 +23,12 @@ int main() {
 			break;
 		}
 		cout << endl;
-		cout << "是否结束本次使用:";
+		cout << "是否结束本次使用(Y为是,其余为否):";
 		string End;
 		cin >> End;
 		if (End == "y" || End == "Y") {
 			if (Head[0]->GetFlag() == true) {
-				cout << "检测到文件未保存，是否要保存:";
+				cout << "检测到文件未保存，是否要保存(Y为是,其余为否):";
 				string SaveOr;
 				cin >> SaveOr;
 				if (SaveOr == "y" || SaveOr == "Y") {
